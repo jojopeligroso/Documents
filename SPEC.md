@@ -1,8 +1,8 @@
-# Access Card Management: Specification v0.1 (draft for review)
+# Access Card Management: Specification v0.2 (requirements complete; for review)
 
 Consolidates decisions from the requirements sessions of 10–11 Nov 2026. Terms are
 defined in [`CONTEXT.md`](CONTEXT.md). Rationale is in [`docs/adr/`](docs/adr/).
-Items marked **[OPEN]** are listed in §15.
+Remaining pre-build checks are listed in §15.
 
 ---
 
@@ -47,13 +47,12 @@ Each role is identified by organisation email in Settings. One person may hold s
 | Request extension | Requester | New linked row |
 | Approve / Deny | Approver | Reason optional on deny. Auto-approve if the Approver is the Requester |
 | Record encoding | Encoder | Card serial, valid from/to, which may differ from requested |
-| Issue | Provisioner | To cardholder **or** Requester (pre-provisioning) |
-| Record handover to cardholder | Requester or Provisioner **[OPEN]** | Only after a pre-provisioned issue |
+| Issue | Provisioner | To cardholder **or** to the Requester on their behalf (pre-provisioning). The Requester → cardholder handover is **not tracked** |
 | Contractor check-out / check-in | Collector | Contractor Log tab |
 | Return (collect) | Collector | Early return ⇒ Encoder notified |
 | Declare no-show | Provisioner | Cancellation then mandatory |
-| Cancel | Requester or Collector (on the Host's behalf) **[OPEN]** confirm Requester | |
-| Report lost | Collector **[OPEN]** or any role holder? | Creates an encoding task |
+| Cancel | Requester, or Collector (on the Host's behalf) | |
+| Report lost | Anyone with sheet access | Creates an encoding task |
 | Record deactivation / replacement | Encoder | Closes the lost-card task |
 
 ---
@@ -74,7 +73,7 @@ Cardholder name · Cardholder type (Visitor / Contractor) · Host email · Conta
 (optional) · Requested start (default 09:30) · Requested end (default 18:00) · Notes ·
 Requester (auto) · Submitted at (auto) · **Status** · Decision by/at · Denial reason ·
 Card serial · Valid from · Valid to · Encoded by/at · Issued to (Cardholder / Requester) ·
-Issued by/at · Handed over at · Returned by/at · **Message** · **Action**
+Issued by/at · Returned by/at · **Message** · **Action**
 
 ### 3.2 Contractor Log columns
 Date · Request ID · Contractor · Card serial · Checked out at/by · Checked in at/by ·
@@ -102,7 +101,7 @@ Draft ──Submit──▶ Submitted ──Approve──▶ Approved ──Reco
 ```
 
 - **Amendment** (new linked row): if the original is still Submitted, the original
-  becomes Cancelled ("superseded by X") **[OPEN: confirm]**. If the original is
+  becomes Cancelled ("superseded by X"). If the original is
   Approved or later, the amendment goes to the Approver again, and on approval the
   usual encoding follows.
 - **Extension** (new linked row): Submitted → Approved (or auto-approved) → Encoded.
@@ -166,7 +165,7 @@ Default lead time: 30 minutes before each target.
 | Approved / Denied | Requester | ✓ |
 | Encoding task (new, extension, lost, early return) | Encoder | ✓ |
 | Encoded | Provisioner/Collector + Requester | ✓ |
-| Issued / handed over / returned | — | ✓ |
+| Issued / returned | — | ✓ |
 | Extension requested | Approver (+ Encoder receipt) | ✓ |
 | Reminders | Collector + Host | — |
 | Contractor not checked in | — | ✓ |
@@ -220,13 +219,8 @@ tests for the pure modules.
 
 ---
 
-## 15. Open items before build
+## 15. Pre-build checks
 
-1. Who records the Requester → cardholder handover: the Requester or the Provisioner?
-2. Who may Cancel: confirm the Requester as well as the Collector.
-3. Who may Report lost: the Collector only, or any role holder?
-4. Amendment of a still-Submitted request: does the original become Cancelled
-   ("superseded")?
-5. Verify the holiday dates against citizensinformation.ie.
-6. Mobile check: confirm on a real phone that dropdown edits fire the trigger and
+1. Verify the holiday dates against citizensinformation.ie.
+2. Mobile check: confirm on a real phone that dropdown edits fire the trigger and
    that the user's email is available.

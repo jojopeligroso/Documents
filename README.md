@@ -7,7 +7,7 @@ and a Google Chat admin space.
 
 One copy of the Sheet per site/office. Not an org-wide system.
 
-**Status:** requirements gathering. No code yet.
+**Status:** requirements complete (SPEC v0.2). No code yet.
 
 - [`SPEC.md`](SPEC.md): consolidated specification (draft for review)
 - [`CONTEXT.md`](CONTEXT.md): domain glossary and the rules agreed so far

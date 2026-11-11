@@ -92,9 +92,9 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
   valid A → B". A → B **may differ** from the requested dates. The sheet
   does **not** integrate with the access-control system (ADR 0002).
 - **Issue**: the Provisioner hands the card to the cardholder, **or** hands it to the
-  Requester ahead of the visit (pre-provisioning). The record shows who received it.
-  If it went to the Requester, the later **Requester → cardholder handover** is
-  recorded too.
+  Requester ahead of the visit (pre-provisioning). The Provisioner records it as
+  issued (to the Requester on the cardholder's behalf). The Requester → cardholder
+  handover is **not tracked**.
 - **Check-out / Check-in**: contractor-only daily handover. The **Collector** records
   both. (For visitors, the Provisioner issues and the Collector collects.)
   The script **automatically adds a Contractor Log row** for each active contractor
@@ -104,7 +104,7 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
   an Encoding Task (re-encode). If the Approver requests it, it is auto-approved.
 - **Early Departure**: the Collector collects the card and the Encoder is informed.
   The Encoder may cut the validity short, or the card may be Repurposed.
-- **Lost Card**: automatically creates an Encoding Task to **deactivate** the lost
+- **Lost Card**: can be reported by anyone with sheet access. Automatically creates an Encoding Task to **deactivate** the lost
   card and, if needed, **activate a replacement** card for the same cardholder.
 - **Final Day**: the last day of the Validity Window.
 - **Working Day**: not a weekend and not in the Settings **Holiday List** (Irish
@@ -115,8 +115,10 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
   the end of the Collector's shift on the **previous Working Day**.
 - **No-show**: the cardholder never collects the card on day 1. The Provisioner
   declares it, and a **Cancellation** is mandatory.
-- **Cancellation**: raised by the Host or the Collector. A Host (no sheet access)
-  emails the Collector, who records it with the menu action or checkbox.
+- **Cancellation**: raised by the Requester or the Collector. A Host (no sheet
+  access) emails the Collector, who records it.
+- **Superseded**: an Amendment to a still-Submitted Request cancels the original
+  with "superseded by X".
 - **Return**: the card is back in the pool and available.
 
 - **Request ID**: `<SITE>-0001`, where `<SITE>` is a short site code set in
