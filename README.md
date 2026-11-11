@@ -9,6 +9,7 @@ One copy of the Sheet per site/office. Not an org-wide system.
 
 **Status:** requirements gathering. No code yet.
 
+- [`SPEC.md`](SPEC.md): consolidated specification (draft for review)
 - [`CONTEXT.md`](CONTEXT.md): domain glossary and the rules agreed so far
 - [`docs/adr/`](docs/adr/): architecture decision records
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved questions

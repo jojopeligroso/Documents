@@ -16,9 +16,9 @@ exactly what is written here. Items marked **(open)** are not yet decided; see
 - **Card**: a physical, reusable access card identified by a **Card Serial**.
   Every card is tracked as stock in the **Card Pool**.
 - **Card Pool**: the fixed set of cards belonging to a Site Sheet.
-- **Card Type**: either **Visitor** or **Contractor**. There is no separate
-  single-day vs multi-day card. A visitor card is simply encoded for a shorter or
-  longer **Validity Window**.
+- **All cards are identical.** There is one pool and one stock count. Visitor vs
+  Contractor is a property of the **Request** (**Cardholder Type**), not of the card.
+  A visitor card is simply encoded for a shorter or longer **Validity Window**.
 - **Validity Window**: the period (from A to B) the card is encoded to work, as set
   in the external access-control system. That system enforces expiry on the
   card itself.
@@ -77,7 +77,7 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 - **Request**: a request for a card for a named cardholder for given dates **with
   times**. Default start **09:30**, default end **18:00**.
   The Requester types it straight into a row on a dedicated **Requests** tab. Once
-  submitted (menu action or checkbox, ADR 0008), the row is **locked** and coloured
+  submitted (menu or Action dropdown, ADR 0008), the row is **locked** and coloured
   by status (see Statuses). Visits always **start on a Working Day**. The sheet
   rejects a start date that isn't one.
 - **Amendment**: a change to a locked Request, raised as a **new row** that refers to
@@ -93,11 +93,14 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
   does **not** integrate with the access-control system (ADR 0002).
 - **Issue**: the Provisioner hands the card to the cardholder, **or** hands it to the
   Requester ahead of the visit (pre-provisioning). The record shows who received it.
-- **Check-out / Check-in**: contractor-only daily handover, logged by the Collector.
+  If it went to the Requester, the later **Requester → cardholder handover** is
+  recorded too.
+- **Check-out / Check-in**: contractor-only daily handover. The **Collector** records
+  both. (For visitors, the Provisioner issues and the Collector collects.)
   The script **automatically adds a Contractor Log row** for each active contractor
-  on each Working Day. The Collector prefers the menu action, and a checkbox is also
-  available (ADR 0008).
-- **Extension**: lengthens a stay. It **needs the Approver's sign-off**, then creates
+  on each Working Day. Actions use the menu or the row's Action dropdown
+  (ADR 0008).
+- **Extension**: a **new linked row** (Kind = Extension). It lengthens a stay. It **needs the Approver's sign-off**, then creates
   an Encoding Task (re-encode). If the Approver requests it, it is auto-approved.
 - **Early Departure**: the Collector collects the card and the Encoder is informed.
   The Encoder may cut the validity short, or the card may be Repurposed.
@@ -115,6 +118,9 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 - **Cancellation**: raised by the Host or the Collector. A Host (no sheet access)
   emails the Collector, who records it with the menu action or checkbox.
 - **Return**: the card is back in the pool and available.
+
+- **Request ID**: `<SITE>-0001`, where `<SITE>` is a short site code set in
+  Settings.
 
 ## Statuses (row colour + text Status column)
 
