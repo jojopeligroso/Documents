@@ -2,35 +2,29 @@
 
 Resolved items move into `CONTEXT.md` or an ADR.
 
-## Carried over / needs confirming
+## Salvo 4
 
-1. **Extensions from non-Approvers.** Do they need the Approver's sign-off before
-   reaching the Encoder?
-2. **Lost card.** Creates an Encoder task to **de**activate the card (assumed; the
-   chat answer said "activated").
-3. **Audit / immutability** (Salvo 2, Q6, unanswered): append-only Event Log
-   written by the script, plus warning-only protection on working tabs?
-4. **Weekends and Irish public holidays.** Does the Collector work them? What if the
-   Final Day falls on one? Should Settings hold a holiday list?
-5. **Encoder and Collector holders.** One person each, or several?
-6. **Library vs clasp-only** (ADR 0005): confirm after reading the trade-offs.
-
-## Salvo 3: sheet structure and day-to-day operation
-
-7. **Raising a request.** Type straight into a row, use a dialog/sidebar from the
-   menu, or use a linked Google Form?
-8. **Tabs.** Proposed: Settings, Cards (pool), Requests (one row per visit),
-   Contractor Log (one row per contractor per day), Event Log.
-9. **Recording each action.** Status dropdown, checkboxes, or menu buttons?
-10. **Assigning a card serial.** At approval, at encoding, or at issue?
-11. **Validity Window vs requested dates.** Can they differ? Date only, or date and
-    time?
-12. **Contractors outside Collector hours.** Production Manager shift starts 07:30,
-    Collector shift 09:30–18:00. Who issues and receives contractor cards outside
-    the Collector's hours?
-13. **No-shows.** A card is encoded but never issued.
-14. **Double-booking.** Should the sheet block a card from being assigned to
-    overlapping visits? Warn when the pool runs low?
-15. **Host email.** Reminders go to the Host via Gmail, so we need a Host email,
-    which could be a Google Group for a team. Is the Host always a Workspace user?
-16. **Sheet access.** Who can open or edit the Site Sheet? Do Hosts need access?
+1. **Lost card: activate?** Confirmed in chat as "activate", which conflicts with
+   the security expectation of *de*activating a lost card. Needs explicit
+   confirmation of the intent.
+2. **Submit signal.** A "Submit" checkbox per row?
+3. **Amendments after lock.** How does a Requester change a locked request
+   (before and after approval)?
+4. **Default times.** What are the default start and end times? (The transcription
+   was unclear: "1989".)
+5. **No-show flow.** Who records it, when (Collection Deadline on day 1?), and does
+   the Encoder deactivate the card?
+6. **Card serial assignment.** At approval, encoding or issue? (Transcription
+   unclear.)
+7. **Low-stock rule.** Fewer than 5 cards free now, or fewer than 5 free across the
+   requested period?
+8. **Backups.** Who gets reminders: primary only, or primary and backup(s)? How does
+   a backup "take over"?
+9. **Approver absence.** Extensions now need Approver sign-off. If the Approver is
+   away, a visitor's card expires on the access system. Delegate or transfer?
+10. **Carried over, still unanswered:** audit Event Log; weekends and Irish public
+    holidays; library vs clasp (ADR 0005); how actions are recorded (checkboxes vs
+    menu buttons); can the Validity Window differ from the requested dates;
+    "Copper"?
+11. **Sharing.** Share the Site Sheet with named individuals only, not groups or the
+    domain (needed for row locks to work; ADR 0007)?

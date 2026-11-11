@@ -34,10 +34,12 @@ One person may hold several roles. Job titles are only an example mapping.
 |---|---|---|---|
 | **Requester** | Raises Requests and Extensions | many | Production Manager, Office Manager, Regional Operations Manager |
 | **Approver** | Approves Requests | **exactly one** | Regional Operations Manager (may move to Office Manager) |
-| **Encoder** | Encodes cards in the access-control system and records it in the sheet | **(open)** one or many | Regional Operations Manager |
-| **Collector** | Issues and collects cards, logs contractor check-out/check-in, is the target of reminders | **(open)** one or many | Office Manager |
+| **Encoder** | Encodes cards in the access-control system and records it in the sheet | one primary, optional backup(s) | Regional Operations Manager |
+| **Collector** | Issues and collects cards, logs contractor check-out/check-in, is the target of reminders | one primary, optional backup(s) | Office Manager |
 
 - If the Approver raises a Request or Extension, it is **auto-approved**.
+- **Sheet access:** only Role Holders can open the Site Sheet. Hosts do not get access.
+  So anyone who raises Requests must hold the Requester role.
 - Each **Role Holder** has a **shift** (start–end) in Settings. Current site:
   Office Manager and Regional Operations Manager 09:30–18:00, Production Manager
   07:30–16:00. Shifts rarely change.
@@ -48,14 +50,20 @@ One person may hold several roles. Job titles are only an example mapping.
   They may take a multi-day card home.
 - **Contractor**: a person issued a Contractor card. They may never take it home.
   They get the **same card** back each day and may be engaged over multiple days.
+  Contractors are **only on site during the Collector's hours**, so there is no
+  out-of-hours issue or return.
 - **Cardholder**: Visitor or Contractor (generic term). The name is typed fresh on
   each Request. There is no reusable people list.
 - **Host**: the team or person the cardholder is there for, usually the Requester.
-  Receives reminders.
+  Receives reminders. Always a user on the Workspace domain (email only, no sheet access).
 
 ## Lifecycle
 
-- **Request**: a request for a card for a named cardholder for given dates.
+- **Request**: a request for a card for a named cardholder for given dates **with
+  times**. **(open)** What are the default times?
+  The Requester types it straight into a row on a dedicated **Requests** tab. Once
+  submitted, the row is **locked**. **(open)** What signals submission, and how are
+  amendments made?
 - **Approval**: given by the Approver once dates are confirmed. Automatic if the
   Approver is the Requester.
 - **Encoding Task**: work for the Encoder, created by an approved Request, an
@@ -65,17 +73,25 @@ One person may hold several roles. Job titles are only an example mapping.
 - **Issue**: the Collector hands the card to the cardholder.
 - **Check-out / Check-in**: contractor-only daily handover, logged by the Collector
   with checkboxes.
-- **Extension**: lengthens a stay. It creates an Encoding Task (re-encode).
-  If the Approver requests it, it goes straight to the Encoder.
-  **(open)** Extensions from other Requesters: approval needed or not?
+- **Extension**: lengthens a stay. It **needs the Approver's sign-off**, then creates
+  an Encoding Task (re-encode). If the Approver requests it, it is auto-approved.
 - **Early Departure**: the Collector collects the card and the Encoder is informed.
   The Encoder may cut the validity short, or the card may be Repurposed.
-- **Lost Card**: automatically creates an Encoding Task to **deactivate** the card.
+- **Lost Card**: automatically creates an Encoding Task for the Encoder.
+  **(open)** Activate or deactivate? See open questions.
 - **Final Day**: the last day of the Validity Window.
 - **Collection Deadline**: the end of the Collector's shift (18:00 at the current
   site) on the Final Day. The card is collected by then, even if the cardholder
   leaves earlier or later.
+- **No-show**: the cardholder never collects the card. It is recorded as a no-show,
+  and a cancellation is **mandatory** (exact flow open).
 - **Return**: the card is back in the pool and available.
+
+## Card allocation
+
+- The sheet **blocks** assigning one card to visits whose Validity Windows overlap.
+- **Low-stock warning** when fewer than **5** cards are left. **(open)** Does that
+  mean free right now, or free for the requested period?
 
 ## Notifications (ADR 0004, ADR 0006)
 
