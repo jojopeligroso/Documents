@@ -9,9 +9,11 @@
   Collector's shift on the **previous Working Day**.
 - Reminder times (ADR 0006) are calculated from that adjusted deadline. "Previous
   working day" skips holidays as well as weekends.
-- Requests starting on a non-Working Day are **allowed**.
+- Visits must **start on a Working Day**. The sheet rejects other start dates. Cards
+  may be provisioned earlier, handed to the Requester.
 
 ## Consequences
+- No site closures are added for late December: there are no visitors then.
 - − Someone must add next year's holidays each year. If they don't, reminders
   silently fall on holidays. Mitigation (proposed): the script warns in the Admin
   Space when the Holiday List has no entries for the next 60 days of a new year.

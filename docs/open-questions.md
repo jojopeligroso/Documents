@@ -2,26 +2,37 @@
 
 Resolved items move into `CONTEXT.md` or an ADR.
 
-## Salvo 6
+## Salvo 7: data model, extensions, messages, setup, dev workflow
 
-1. **More than one Approver?** This conflicts with the earlier "only one person
-   should have approval rights". Options:
-   (a) several Approvers, any of whom can approve alone;
-   (b) one active Approver plus delegated backups, like the Encoder and Collector.
-2. **Provisioner = Collector?** (Unanswered from salvo 5.)
-3. **Visits starting on a non-Working Day.** These are allowed, but the Collector
-   isn't in. Is the card issued on the previous Working Day?
-4. **Holidays.** Is the site closed on Mon 28 Dec 2026, and on Mon 27 and Tue 28 Dec
-   2027? Any other closures (e.g. 24 Dec)? Who updates the Holiday List each year?
-   Can someone confirm the dates against citizensinformation.ie (not reachable from
-   this session)?
-5. **Pending extensions near expiry.** There's no cut-off, but should the Approver and
-   Encoder be chased (e.g. in the Admin Space) if an extension is still pending on
-   the Final Day?
-6. **Identity fail-closed.** If the script can't read the user's email, it refuses
-   the action. OK?
-7. **Checkbox feedback on mobile.** Use a "Message" column that explains why a tick
-   was rejected?
-8. **Trigger installer / owner.** Emails are sent from the installer's account, and
-   the owner and installer can bypass row locks. Should these be the same person, and
-   who? (Recommend: the Approver, or a role-neutral admin.)
+1. **Card type: physical or per request?** Are cards physically dedicated to Visitor
+   or Contractor (separate pools and low-stock counts), or can any card be encoded
+   for either?
+2. **Mobile action control.** Ten checkbox columns, or a single **Action** dropdown
+   per row (pick an action and the script runs it, then resets the dropdown)?
+3. **Requests tab columns.** Confirm the proposed list (see chat / below).
+4. **Extensions.** A new linked row (like an Amendment), with the original row
+   showing "Extension pending"?
+5. **Chasing pending extensions.** Default: post in the Admin Space at 09:30 on the
+   Final Day if an extension is still unapproved or unencoded.
+6. **Contractor duties.** Check-out by the Provisioner, check-in by the Collector?
+7. **Pre-provisioning.** When the card goes to the Requester, is the Requester's
+   later handover to the visitor recorded, or is the Requester responsible from
+   then on?
+8. **Email content.** Which details go in each email? Include a link to the row
+   (role holders only; Hosts have no access)?
+9. **Request ID format.** e.g. `REQ-0042`, and per site or with a site prefix?
+10. **Setup.** An Admin-only "Setup / Repair" menu that installs triggers, applies
+    protections, validates Settings, and stores the Chat webhook in Script
+    Properties?
+11. **Dev workflow.** Plain Apps Script JavaScript (V8) with JSDoc, `clasp` from
+    this repo, a **test copy** of the Site Sheet on the dev library version before
+    each release, and local Node unit tests for pure logic (dates, overlaps)?
+
+### Proposed Requests tab columns
+Request ID (auto) · Kind (New / Amendment / Extension) · Links to (Request ID) ·
+Cardholder name · Cardholder type (Visitor / Contractor) · Host email · Contact
+(optional) · Requested start (default 09:30) · Requested end (default 18:00) ·
+Notes · Requester (auto) · Submitted at (auto) · **Status** · Decision by / at ·
+Denial reason (optional) · Card serial · Valid from · Valid to · Encoded by / at ·
+Issued to (Cardholder / Requester) · Issued by / at · Returned by / at · **Message** ·
+Action control(s)

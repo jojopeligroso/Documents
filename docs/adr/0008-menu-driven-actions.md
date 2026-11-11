@@ -32,9 +32,13 @@ on the **selected row**.
   Google Workspace domain as the user." (…/reference/base/session)
 
 ## Identity rule
-- Role checks rely on the active user's email. If it comes back **blank**, the
-  action is **refused** (fail closed) and the reason is shown. Test this on real
-  devices before go-live, because "generally" isn't a guarantee.
+- Settings says who **should** act (one email per role). The script still has to
+  find out who **is** acting, using `Session.getActiveUser()`, and compare the two.
+  All users are on the same Workspace domain, so the email should be available.
+  As a safeguard, a blank email means the action is refused and the reason is
+  written to the row's **Message** column. Test on real phones before go-live.
+- Feedback for both menu and checkbox actions goes to a per-row **Message** column,
+  plus a toast or dialog on desktop.
 
 ## Unverified (from training)
 - Custom menus are probably also **not shown in the Sheets mobile apps**. If so,
@@ -44,5 +48,4 @@ on the **selected row**.
 - + Role checks, status checks and an audit entry on every action.
 - − Two entry points per action to keep in sync. This is mitigated by both calling
   one shared handler.
-- − On mobile, a failed checkbox can't show a dialog. Feedback has to go in a cell
-  note or a Status message column (exact mechanism to confirm when building).
+- − On mobile, dialogs can't be shown, so the Message column is the feedback channel.

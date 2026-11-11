@@ -27,32 +27,35 @@ exactly what is written here. Items marked **(open)** are not yet decided; see
 
 ## Roles (functional, not job titles)
 
-There are four **roles**. Each Site Sheet assigns them to people in a Settings tab.
-One person may hold several roles. Job titles are only an example mapping.
+Each role is held by people identified by their **organisation email address**,
+entered in a dedicated cell (or list) in Settings. One person may hold several
+roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 
 | Role | Does | Holders | Example (current site) |
 |---|---|---|---|
-| **Requester** | Raises Requests and Extensions | many | Production Manager, Office Manager, Regional Operations Manager |
-| **Approver** | Approves or denies Requests, Extensions and Amendments | **(open)** "more than one": conflicts with the earlier "exactly one" | Regional Operations Manager (may move to Office Manager) |
-| **Encoder** | Encodes cards in the access-control system and records it in the sheet | one primary, optional backup(s) | Regional Operations Manager |
-| **Collector** | Issues and collects cards, logs contractor check-out/check-in, declares no-shows, receives reminders | one primary, optional backup(s) | Office Manager |
+| **Admin** | Owns the file, installs the triggers (emails are sent from this account), sets the Approver | exactly one | Separate role. May be the same person as the Approver |
+| **Approver** | Approves or denies Requests, Extensions and Amendments | **exactly one at any time** | Regional Operations Manager |
+| **Encoder** | Encodes cards in the access-control system and records it in the sheet | exactly one at any time | Regional Operations Manager |
+| **Provisioner** | Hands out cards (issue), declares no-shows | exactly one at any time | Office Manager |
+| **Collector** | Takes cards back, logs contractor check-in, receives reminders | exactly one at any time. **Defaults to the Provisioner** | Office Manager |
+| **Requester** | Raises Requests, Extensions, Amendments | a short **list** of permitted people | Production Manager, Office Manager, Regional Operations Manager |
 
+- **Changing role holders:** the Admin sets the Approver. The Approver may
+  **delegate** their role. Encoder, Provisioner and Collector are changed by editing
+  their cell. "Delegation" means changing the cell's email, and every change is
+  written to the Event Log. There is no separate backup list.
 - If the Approver raises a Request or Extension, it is **auto-approved**.
 - The **Approver** is the person with the highest authority over facility security.
-  The document owner or the Approver can reassign the Approver role in Settings.
-  Temporary handovers (e.g. during leave) are acceptable.
-- **Backups** exist in the model but are not used at the current site. A backup acts
-  only when someone **delegates** to them by changing a setting. Notifications go to
-  the **active** holder only.
-- **(open)** "Provisioner" (the person who hands out cards on the first day): is
-  this just another name for the Collector?
-- **Sheet access:** only Role Holders can open the Site Sheet. Hosts do not get access.
-  So anyone who raises Requests must hold the Requester role.
-- **Settings tab:** editable only by the document owner and the Approver(s). The
-  script updates that protection automatically whenever the Approver role changes.
-- **Ownership:** at first the sheet lives in one person's My Drive. The aim is to
-  move it to a Shared Drive later.
-- Each **Role Holder** has a **shift** (start–end) in Settings. Current site:
+- **Provisioner vs Collector:** these are the same person by default. The split
+  exists so someone else can be delegated to take cards back when the person who
+  issued them can't.
+- **Sheet access:** only the Admin, the role holders and listed Requesters can open
+  the Site Sheet. Hosts do not get access.
+- **Settings tab:** editable only by the Admin and the current Approver. The script
+  updates that protection automatically whenever the Approver changes.
+- **Ownership:** the Admin's My Drive at first. The aim is to move it to a Shared
+  Drive later.
+- Each role holder has a **shift** (start–end) in Settings. Current site:
   Office Manager and Regional Operations Manager 09:30–18:00, Production Manager
   07:30–16:00. Shifts rarely change.
 
@@ -75,8 +78,8 @@ One person may hold several roles. Job titles are only an example mapping.
   times**. Default start **09:30**, default end **18:00**.
   The Requester types it straight into a row on a dedicated **Requests** tab. Once
   submitted (menu action or checkbox, ADR 0008), the row is **locked** and coloured
-  by status (see Statuses). Requests that start on a non-Working Day are **not**
-  refused.
+  by status (see Statuses). Visits always **start on a Working Day**. The sheet
+  rejects a start date that isn't one.
 - **Amendment**: a change to a locked Request, raised as a **new row** that refers to
   the original. If the original was already approved, the Amendment needs
   re-approval. History is kept.
@@ -88,7 +91,8 @@ One person may hold several roles. Job titles are only an example mapping.
 - **Encoding**: the Encoder records the **Card Serial**, "encoded by X at time T,
   valid A → B". A → B **may differ** from the requested dates. The sheet
   does **not** integrate with the access-control system (ADR 0002).
-- **Issue**: the Collector hands the card to the cardholder.
+- **Issue**: the Provisioner hands the card to the cardholder, **or** hands it to the
+  Requester ahead of the visit (pre-provisioning). The record shows who received it.
 - **Check-out / Check-in**: contractor-only daily handover, logged by the Collector.
   The script **automatically adds a Contractor Log row** for each active contractor
   on each Working Day. The Collector prefers the menu action, and a checkbox is also
@@ -106,7 +110,7 @@ One person may hold several roles. Job titles are only an example mapping.
   site) on the Final Day. The card is collected by then, even if the cardholder
   leaves earlier or later. If the Final Day is **not** a Working Day, the deadline is
   the end of the Collector's shift on the **previous Working Day**.
-- **No-show**: the cardholder never collects the card on day 1. The Collector
+- **No-show**: the cardholder never collects the card on day 1. The Provisioner
   declares it, and a **Cancellation** is mandatory.
 - **Cancellation**: raised by the Host or the Collector. A Host (no sheet access)
   emails the Collector, who records it with the menu action or checkbox.
@@ -136,7 +140,7 @@ One person may hold several roles. Job titles are only an example mapping.
 
 ## Notifications (ADR 0004, ADR 0006)
 
-- **Reminder**: sent to the **active** Collector (not backups) and the Host before
+- **Reminder**: sent to the current Collector and the Host before
   the Collection Deadline.
   Delivered **no later than**: 17:30 on the previous working day (24h),
   09:30 on the Final Day (12h), 15:00 on the Final Day (3h).
