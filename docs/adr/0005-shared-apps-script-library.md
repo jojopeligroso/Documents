@@ -1,6 +1,6 @@
 # ADR 0005: Shared Apps Script library with thin per-site bound scripts
 
-**Status:** Proposed, 2026-11-11 (awaiting confirmation after the trade-offs below)
+**Status:** Accepted, 2026-11-11
 
 ## Context
 One site at launch, possibly more later. Each Site Sheet is a copy of the template

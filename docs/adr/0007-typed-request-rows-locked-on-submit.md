@@ -1,6 +1,6 @@
 # ADR 0007: Requests typed into a dedicated tab; rows locked by script on submit
 
-**Status:** Proposed, 2026-11-11 (the submit signal and amendment flow are still open)
+**Status:** Accepted, 2026-11-11 (the status colour list is still open)
 
 ## Context
 The user wants Requesters to type straight into a row on a tab used only for
@@ -9,14 +9,17 @@ Requests. A submitted row must not change silently afterwards.
 ## Decision
 - A **Requests** tab where each Requester types one row per visit. Dropdowns, date
   pickers and required-field checks are done with data validation.
-- An explicit **Submit** signal (proposed: a checkbox column). Without one, the
-  script can't tell a finished row from one still being typed, because the on-edit
-  trigger fires on every cell edit.
+- An explicit **Submit** action, as a **menu action / button** that acts on the
+  selected row (the user prefers menu buttons over checkboxes for all actions).
+  Without it, the script can't tell a finished row from one still being typed.
+- Each row is **coloured by status** (e.g. Submitted = lime, Approved = green,
+  Denied = red). A text Status column is always shown as well, so meaning never
+  relies on colour alone.
 - On submit, the script validates the row, then **protects that row's range**
   (`Range.protect()`), leaving only the script-running account and the owner as
   editors.
-- Changes after submission go through an amendment flow (to be defined), never by
-  editing the locked row.
+- Changes after submission are made as an **Amendment row** that refers to the
+  original. Approved originals need re-approval. The locked row is never edited.
 
 ## Verified facts (Apps Script `Protection` reference, via Context7, 2026-11-11)
 - "Neither the owner of the spreadsheet nor the current user can be removed" from a

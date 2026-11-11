@@ -35,9 +35,17 @@ One person may hold several roles. Job titles are only an example mapping.
 | **Requester** | Raises Requests and Extensions | many | Production Manager, Office Manager, Regional Operations Manager |
 | **Approver** | Approves Requests | **exactly one** | Regional Operations Manager (may move to Office Manager) |
 | **Encoder** | Encodes cards in the access-control system and records it in the sheet | one primary, optional backup(s) | Regional Operations Manager |
-| **Collector** | Issues and collects cards, logs contractor check-out/check-in, is the target of reminders | one primary, optional backup(s) | Office Manager |
+| **Collector** | Issues and collects cards, logs contractor check-out/check-in, declares no-shows, receives reminders | one primary, optional backup(s) | Office Manager |
 
 - If the Approver raises a Request or Extension, it is **auto-approved**.
+- The **Approver** is the person with the highest authority over facility security.
+  The document owner or the Approver can reassign the Approver role in Settings.
+  Temporary handovers (e.g. during leave) are acceptable.
+- **Backups** exist in the model but are not used at the current site. A backup acts
+  only when someone **delegates** to them by changing a setting. Notifications go to
+  the **active** holder only.
+- **(open)** "Provisioner" (the person who hands out cards on the first day): is
+  this just another name for the Collector?
 - **Sheet access:** only Role Holders can open the Site Sheet. Hosts do not get access.
   So anyone who raises Requests must hold the Requester role.
 - Each **Role Holder** has a **shift** (start–end) in Settings. Current site:
@@ -60,15 +68,18 @@ One person may hold several roles. Job titles are only an example mapping.
 ## Lifecycle
 
 - **Request**: a request for a card for a named cardholder for given dates **with
-  times**. **(open)** What are the default times?
+  times**. Default start **09:30**, default end **18:00**.
   The Requester types it straight into a row on a dedicated **Requests** tab. Once
-  submitted, the row is **locked**. **(open)** What signals submission, and how are
-  amendments made?
+  submitted (menu action, ADR 0007), the row is **locked** and coloured by status.
+- **Amendment**: a change to a locked Request, raised as a **new row** that refers to
+  the original. If the original was already approved, the Amendment needs
+  re-approval. History is kept.
 - **Approval**: given by the Approver once dates are confirmed. Automatic if the
   Approver is the Requester.
 - **Encoding Task**: work for the Encoder, created by an approved Request, an
   Extension, a lost card, or an early departure.
-- **Encoding**: the Encoder records "encoded by X at time T, valid A → B". The sheet
+- **Encoding**: the Encoder records the **Card Serial**, "encoded by X at time T,
+  valid A → B". A → B **may differ** from the requested dates. The sheet
   does **not** integrate with the access-control system (ADR 0002).
 - **Issue**: the Collector hands the card to the cardholder.
 - **Check-out / Check-in**: contractor-only daily handover, logged by the Collector
@@ -77,31 +88,41 @@ One person may hold several roles. Job titles are only an example mapping.
   an Encoding Task (re-encode). If the Approver requests it, it is auto-approved.
 - **Early Departure**: the Collector collects the card and the Encoder is informed.
   The Encoder may cut the validity short, or the card may be Repurposed.
-- **Lost Card**: automatically creates an Encoding Task for the Encoder.
-  **(open)** Activate or deactivate? See open questions.
+- **Lost Card**: automatically creates an Encoding Task to **deactivate** the lost
+  card and, if needed, **activate a replacement** card for the same cardholder.
 - **Final Day**: the last day of the Validity Window.
+- **Working Day**: not a weekend and not in the Settings **Holiday List** (Irish
+  public holidays, maintained by hand). The Collector works only on Working Days.
 - **Collection Deadline**: the end of the Collector's shift (18:00 at the current
-  site) on the Final Day. The card is collected by then, even if the cardholder
+  site) on the Final Day. **(open)** What happens if the Final Day isn't a Working Day? The card is collected by then, even if the cardholder
   leaves earlier or later.
-- **No-show**: the cardholder never collects the card. It is recorded as a no-show,
-  and a cancellation is **mandatory** (exact flow open).
+- **No-show**: the cardholder never collects the card on day 1. The Collector
+  declares it, and a **Cancellation** is mandatory.
+- **Cancellation**: raised by the Host or the Collector. **(open)** Hosts have no
+  sheet access, so how does a Host raise one?
 - **Return**: the card is back in the pool and available.
 
 ## Card allocation
 
 - The sheet **blocks** assigning one card to visits whose Validity Windows overlap.
-- **Low-stock warning** when fewer than **5** cards are left. **(open)** Does that
-  mean free right now, or free for the requested period?
+- **Low-stock warning** when fewer than **5** cards are free **across the dates of
+  the Request being made**.
 
 ## Notifications (ADR 0004, ADR 0006)
 
-- **Reminder**: sent to the Collector and the Host before the Collection Deadline.
+- **Reminder**: sent to the **active** Collector (not backups) and the Host before
+  the Collection Deadline.
   Delivered **no later than**: 17:30 on the previous working day (24h),
   09:30 on the Final Day (12h), 15:00 on the Final Day (3h).
 - **Admin Space**: a Google Chat space (about 3 members) that receives an event feed
   through an incoming webhook. It is not used for DMs.
 - **Overdue Contractor Card**: a contractor card not checked in by the end of the
   Collector's shift. It is posted to the Admin Space.
+
+## Audit
+
+- **Event Log**: a locked tab. The script appends one row per action (who, what,
+  when, request ID). Never edited by hand.
 
 ## Data & retention
 

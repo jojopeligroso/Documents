@@ -16,8 +16,9 @@ each one varies by site and over time. One person may perform several.
 
 ## Consequences
 - + Works for any site's staffing without code changes.
-- − If the Approver is absent, approvals stall. **(open)** Is a manual transfer in
-  Settings acceptable cover?
+- The document owner **or** the Approver may reassign the Approver role. Temporary
+  handover during absence is accepted as the cover for approvals stalling.
+- The Approver is the person with the highest authority over facility security.
 - Note: everyone is trusted, so role checks guard against mistakes, not malice. The
   script checks the active user's email against Settings, but anyone with edit
   access can change Settings.
