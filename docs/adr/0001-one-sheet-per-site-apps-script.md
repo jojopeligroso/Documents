@@ -14,7 +14,6 @@ times. There is no central database and no cross-site reporting.
 ## Consequences
 - + No servers or extra cost. Everything runs inside Workspace.
 - + Sites are isolated, so a mistake at one site can't affect another.
-- − Code fixes do not reach existing copies automatically. Each copy has its own
-  script. **(open)** Is that acceptable, or do we want a shared library?
+- − Code fixes do not reach existing copies automatically. Addressed by ADR 0005.
 - − Apps Script quotas and trigger limits apply per user/script. Check these before
   the design is final.

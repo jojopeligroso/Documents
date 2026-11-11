@@ -2,32 +2,35 @@
 
 Resolved items move into `CONTEXT.md` or an ADR.
 
-## Salvo 2: roles, extensions, timing, notifications, audit
+## Carried over / needs confirming
 
-1. **Approver vs Encoder.** Are these always the same person, or can they be split
-   (e.g. OM approves, ROM encodes)?
-2. **Extensions.** OM, ROM or PM can request one. Does it need the Approver's sign-off,
-   or does it go straight to the Encoder? If the Approver requests it, is it
-   auto-approved?
-3. **Reminder shift rule.** Proposal (Collection Deadline 18:00):
-   T-24h → 17:30 on the previous working day; T-12h → 09:30 on the Final Day;
-   T-3h → 15:00. Weekends and Irish public holidays: does the OM work them? What
-   happens if the Final Day falls on one?
-4. **Trigger precision.** Daily Apps Script triggers fire somewhere within an hour
-   window, not on the minute. Is a 15-minute polling trigger acceptable instead?
-5. **Event → channel matrix.** To be confirmed (see the chat proposal).
-6. **Audit / immutability.** Append-only Event Log tab written by the script, with
-   protected ranges set to warn rather than block?
-7. **Sending identity.** Whose account installs the triggers and sends the email?
-   A person, or a shared mailbox/group?
-8. **Card states and loss.** Available / Encoded / Issued / Out / In / Lost / Retired?
-   Does a lost card create an Encoder deactivation task?
-9. **Early end / cancellation.** Is the card re-encoded to deactivate, or just
-   collected?
-10. **Late return.** Does a visitor card still out after the Collection Deadline
-    escalate, and to whom?
-11. **Retention.** Purge all records at 18 months (employee records live in HR anyway),
-    or treat employees differently?
-12. **Repeat cardholders.** Keep a reusable people list, or type the name each time?
-13. **Code updates across copies.** Is "copy the template, then update each copy by
-    hand" OK, or do we want a shared Apps Script library?
+1. **Extensions from non-Approvers.** Do they need the Approver's sign-off before
+   reaching the Encoder?
+2. **Lost card.** Creates an Encoder task to **de**activate the card (assumed; the
+   chat answer said "activated").
+3. **Audit / immutability** (Salvo 2, Q6, unanswered): append-only Event Log
+   written by the script, plus warning-only protection on working tabs?
+4. **Weekends and Irish public holidays.** Does the Collector work them? What if the
+   Final Day falls on one? Should Settings hold a holiday list?
+5. **Encoder and Collector holders.** One person each, or several?
+6. **Library vs clasp-only** (ADR 0005): confirm after reading the trade-offs.
+
+## Salvo 3: sheet structure and day-to-day operation
+
+7. **Raising a request.** Type straight into a row, use a dialog/sidebar from the
+   menu, or use a linked Google Form?
+8. **Tabs.** Proposed: Settings, Cards (pool), Requests (one row per visit),
+   Contractor Log (one row per contractor per day), Event Log.
+9. **Recording each action.** Status dropdown, checkboxes, or menu buttons?
+10. **Assigning a card serial.** At approval, at encoding, or at issue?
+11. **Validity Window vs requested dates.** Can they differ? Date only, or date and
+    time?
+12. **Contractors outside Collector hours.** Production Manager shift starts 07:30,
+    Collector shift 09:30–18:00. Who issues and receives contractor cards outside
+    the Collector's hours?
+13. **No-shows.** A card is encoded but never issued.
+14. **Double-booking.** Should the sheet block a card from being assigned to
+    overlapping visits? Warn when the pool runs low?
+15. **Host email.** Reminders go to the Host via Gmail, so we need a Host email,
+    which could be a Google Group for a team. Is the Host always a Workspace user?
+16. **Sheet access.** Who can open or edit the Site Sheet? Do Hosts need access?

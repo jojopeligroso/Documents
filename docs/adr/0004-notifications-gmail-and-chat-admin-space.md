@@ -1,6 +1,6 @@
 # ADR 0004: Gmail for people, Chat incoming webhook for the admin feed
 
-**Status:** Proposed, 2026-11-10 (the per-event channel mapping is still open)
+**Status:** Accepted, 2026-11-11
 
 ## Context
 Actions in the sheet must notify the right person. A simple `onEdit` trigger can't
@@ -18,4 +18,18 @@ incoming webhooks can post only to a space, not to a person's DMs.
 - − The webhook URL is a secret (anyone who has it can post to the space). Store it
   in Script Properties, not in a cell.
 - − Installable triggers run as the user who installed them, so emails are sent
-  from that account. **(open)** Whose account?
+  from that account. Accepted: they send from the account of whoever installs them.
+
+## Event → channel matrix (accepted)
+
+| Event | Gmail to | Admin Space |
+|---|---|---|
+| New request | Approver | ✓ |
+| Approved / rejected | Requester | ✓ |
+| Encoding task | Encoder | ✓ |
+| Encoded | Collector + Requester | ✓ |
+| Card issued / returned | — | ✓ |
+| Extension requested | Approver/Encoder (receipt) | ✓ |
+| Reminders 24/12/3h | Collector + Host | — |
+| Contractor card not checked in by shift end | — | ✓ |
+| Visitor card not back after Collection Deadline | Collector | ✓ |

@@ -1,17 +1,23 @@
-# ADR 0003: A single, transferable Approver role
+# ADR 0003: Functional roles; a single, transferable Approver
 
-**Status:** Accepted, 2026-11-10
+**Status:** Accepted, 2026-11-11
 
 ## Context
-There are four roles (OM, ROM, PM, Encoder). One person may hold several roles.
-Approval rights must be unambiguous.
+The workflow has four functions: request, approve, encode, collect. Who performs
+each one varies by site and over time. One person may perform several.
 
 ## Decision
-Exactly **one** Role Holder per Site Sheet holds approval rights. The default is the
-ROM, and the right can be transferred (e.g. to the OM). A Requester may approve
-their own Request only if they are the Approver.
+- Model **roles**, not job titles: Requester, Approver, Encoder, Collector. Each
+  Site Sheet assigns roles to people in Settings.
+- Exactly **one** person holds the Approver role. It can be transferred.
+- If the Approver raises a Request or Extension, it is auto-approved and goes
+  straight to the Encoder.
+- A Requester who is not the Approver cannot approve their own Request.
 
 ## Consequences
-- + Clear accountability.
-- − If the Approver is absent, approvals stall. **(open)** Do we need a deputy or a
-  manual handover process?
+- + Works for any site's staffing without code changes.
+- − If the Approver is absent, approvals stall. **(open)** Is a manual transfer in
+  Settings acceptable cover?
+- Note: everyone is trusted, so role checks guard against mistakes, not malice. The
+  script checks the active user's email against Settings, but anyone with edit
+  access can change Settings.
