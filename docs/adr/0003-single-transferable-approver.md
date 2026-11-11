@@ -1,6 +1,6 @@
 # ADR 0003: Functional roles; a single, transferable Approver
 
-**Status:** Accepted, 2026-11-11
+**Status:** Accepted, 2026-11-11. **Challenged** 2026-11-11: the user said "there can be more than one approver". See open questions.
 
 ## Context
 The workflow has four functions: request, approve, encode, collect. Who performs

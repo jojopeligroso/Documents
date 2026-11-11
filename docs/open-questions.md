@@ -2,30 +2,26 @@
 
 Resolved items move into `CONTEXT.md` or an ADR.
 
-## Salvo 5
+## Salvo 6
 
-1. **Provisioner vs Collector.** Same role (issues on day 1 and collects at the end),
-   or a separate fifth role?
-2. **Host cancellations.** Hosts have no sheet access. Does a Host email the
-   Collector, who then records the cancellation?
-3. **Visits touching non-Working Days.** Final Day is a Saturday or public holiday:
-   is the Collection Deadline the previous Working Day at 18:00, or the next Working
-   Day? Should Requests starting on a non-Working Day be blocked?
-4. **Mobile.** Does anyone (especially the Collector at the desk) need to act from a
-   phone or tablet? Menus and drawing buttons are browser-only (ADR 0008).
-5. **Status list and colours.** Confirm or trim the proposed list.
-6. **Denials.** Is a reason required? Can a denied Request be amended and
-   resubmitted, or must it be raised as a new Request?
-7. **Document ownership.** Whose My Drive owns the Site Sheet, or should it live in a
-   Shared Drive? (This affects who can bypass locks and what happens if an account
-   is removed.)
-8. **Settings protection.** Only the owner and the Approver can edit Settings, with
-   the script updating that protection when the Approver changes?
-9. **Holiday List upkeep.** Who updates it each year? Include site closure days
-   (e.g. Christmas shutdown)?
-10. **Late extensions.** Is there a cut-off before the Collection Deadline? Should the
-    Approver and Encoder be chased if an extension is still pending close to the
-    card's expiry?
-11. **Contractor daily log.** Rows generated automatically for each active contractor
-    on each Working Day? Is check-out/in done with a menu action, or with checkboxes
-    for speed?
+1. **More than one Approver?** This conflicts with the earlier "only one person
+   should have approval rights". Options:
+   (a) several Approvers, any of whom can approve alone;
+   (b) one active Approver plus delegated backups, like the Encoder and Collector.
+2. **Provisioner = Collector?** (Unanswered from salvo 5.)
+3. **Visits starting on a non-Working Day.** These are allowed, but the Collector
+   isn't in. Is the card issued on the previous Working Day?
+4. **Holidays.** Is the site closed on Mon 28 Dec 2026, and on Mon 27 and Tue 28 Dec
+   2027? Any other closures (e.g. 24 Dec)? Who updates the Holiday List each year?
+   Can someone confirm the dates against citizensinformation.ie (not reachable from
+   this session)?
+5. **Pending extensions near expiry.** There's no cut-off, but should the Approver and
+   Encoder be chased (e.g. in the Admin Space) if an extension is still pending on
+   the Final Day?
+6. **Identity fail-closed.** If the script can't read the user's email, it refuses
+   the action. OK?
+7. **Checkbox feedback on mobile.** Use a "Message" column that explains why a tick
+   was rejected?
+8. **Trigger installer / owner.** Emails are sent from the installer's account, and
+   the owner and installer can bypass row locks. Should these be the same person, and
+   who? (Recommend: the Approver, or a role-neutral admin.)
