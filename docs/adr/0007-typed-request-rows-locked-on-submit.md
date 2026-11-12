@@ -1,40 +1,34 @@
-# ADR 0007: Requests typed into a dedicated tab; rows locked by script on submit
+# ADR 0007: Requests typed into rows; one sheet-wide lock with openings
 
-**Status:** Accepted, 2026-11-11 (the status colour list is still open)
+**Status:** Accepted, 2026-11-12 (revised: sheet-wide lock replaces per-row locks)
 
 ## Context
-The user wants Requesters to type straight into a row on a tab used only for
-Requests. A submitted row must not change silently afterwards.
+Requesters type requests straight into rows on the Requests tab. Once submitted, what
+was asked for must not change silently.
 
 ## Decision
-- A **Requests** tab where each Requester types one row per visit. Dropdowns, date
-  pickers and required-field checks are done with data validation.
-- An explicit **Submit** action, as a **menu action / button** that acts on the
-  selected row (the user prefers menu buttons over checkboxes for all actions).
-  Without it, the script can't tell a finished row from one still being typed.
-- Each row is **coloured by status** (e.g. Submitted = lime, Approved = green,
-  Denied = red). A text Status column is always shown as well, so meaning never
-  relies on colour alone.
-- On submit, the script validates the row, then **protects that row's range**
-  (`Range.protect()`), leaving only the script-running account and the owner as
-  editors.
-- Changes after submission are made as an **Amendment row** that refers to the
-  original. Approved originals need re-approval. The locked row is never edited.
+- Each tab has **one sheet-level protection**. The cells people may type in are
+  listed as **unprotected ranges** ("openings").
+- On `Requests` the openings are: Action and Action note on every row; the entry
+  columns on Draft rows and the empty rows below the data; the encoding columns on
+  rows that are Approved or Lost.
+- The script recalculates the openings from the Status column after any action that
+  changes them (`Protect.syncRequests`).
+- Changes after submission are made with an Amendment row.
 
-## Verified facts (Apps Script `Protection` reference, via Context7, 2026-11-11)
+## Why not one protection per submitted row (the earlier design)
+- Hundreds of protections on one tab may slow the sheet (unverified).
+- A per-row lock can only be created, not derived. The sheet-wide lock is computed
+  from the data, so "Build / repair" can always put it right.
+
+## Verified facts (Apps Script `Protection` reference, via Context7, Nov 2026)
 - "Neither the owner of the spreadsheet nor the current user can be removed" from a
-  protected range's editors. So the sheet owner and the trigger's account can
-  **always** edit locked rows.
-- If a user gets edit access **through a Google Group**, or the whole domain has
-  edit access, `removeEditor` does **not** stop them editing the protected range.
-  So **share the Site Sheet with named individuals, not groups or the domain.**
-- `setWarningOnly(true)` gives "are you sure?" protection instead of blocking.
+  protection's editors.
+- A person with edit access through a **Google Group**, or because the whole domain
+  can edit, is **not** stopped by a protection. Share with named people only.
 
 ## Consequences
-- + Matches how users already work in Sheets. No forms to maintain.
-- − Locks are "trusted-party" strength: the owner and trigger account can bypass
-  them. That's acceptable under the trust model.
-- − Hundreds of per-row protections can make a sheet sluggish (unverified; check
-  before building). Alternative: protect the whole Requests tab, leave only an
-  "entry zone" unprotected, and have the script move submitted rows into a
-  protected register.
+- + Self-repairing. One protection per tab to reason about.
+- − Locks are "trusted-party" strength: the Admin can always edit.
+- − To be confirmed in Phase 0: a sheet-wide protection with unprotected ranges
+  blocks other editors everywhere else.

@@ -77,7 +77,7 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 - **Request**: a request for a card for a named cardholder for given dates **with
   times**. Default start **09:30**, default end **18:00**.
   The Requester types it straight into a row on a dedicated **Requests** tab. Once
-  submitted (menu or Action dropdown, ADR 0008), the row is **locked** and coloured
+  submitted (Action dropdown, ADR 0008), the row is **locked** and coloured
   by status (see Statuses). Visits always **start on a Working Day**. The sheet
   rejects a start date that isn't one.
 - **Amendment**: a change to a locked Request, raised as a **new row** that refers to
@@ -98,8 +98,8 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 - **Check-out / Check-in**: contractor-only daily handover. The **Collector** records
   both. (For visitors, the Provisioner issues and the Collector collects.)
   The script **automatically adds a Contractor Log row** for each active contractor
-  on each Working Day. Actions use the menu or the row's Action dropdown
-  (ADR 0008).
+  on each Working Day. Actions use the row's Action dropdown (ADR 0008).
+  Log statuses: Pending, Out, In, Overdue, Absent.
 - **Extension**: a **new linked row** (Kind = Extension). It lengthens a stay. It **needs the Approver's sign-off**, then creates
   an Encoding Task (re-encode). If the Approver requests it, it is auto-approved.
 - **Early Departure**: the Collector collects the card and the Encoder is informed.
@@ -119,7 +119,9 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
   access) emails the Collector, who records it.
 - **Superseded**: an Amendment to a still-Submitted Request cancels the original
   with "superseded by X".
-- **Return**: the card is back in the pool and available.
+- **Return**: the card is back in the pool and available. The row becomes **Closed**.
+- **Closed**: finished normally. Either the card was returned, or the row is an
+  Extension that has been applied to its original.
 
 - **Request ID**: `<SITE>-0001`, where `<SITE>` is a short site code set in
   Settings.
@@ -135,7 +137,7 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 | Encoded | light blue |
 | Issued | teal |
 | Extension pending | amber |
-| Returned / Closed | grey |
+| Closed | grey |
 | Cancelled | dark grey |
 | No-show | orange |
 | Lost | purple |
@@ -157,10 +159,20 @@ roles (e.g. Approver + Encoder). Job titles are only an example mapping.
 - **Overdue Contractor Card**: a contractor card not checked in by the end of the
   Collector's shift. It is posted to the Admin Space.
 
+## How actions run
+
+- **Action dropdown**: the only way to run a workflow action. One per row. It offers
+  only the actions valid for the row's status. Works on desktop and mobile.
+- **Menu** ("Access Cards"): desktop helpers and Admin tools only. It cannot run
+  workflow actions (ADR 0011).
+- **Message**: per-row result of the last action, starting ✓ or ✗.
+- Every action runs as the **Admin** (the trigger installer), whoever chose it.
+
 ## Audit
 
 - **Event Log**: a locked tab. The script appends one row per action (who, what,
   when, request ID). Never edited by hand.
+- **Sent Log**: hidden tab recording each reminder already sent, so none is sent twice.
 
 ## Data & retention
 

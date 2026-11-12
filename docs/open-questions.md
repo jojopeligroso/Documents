@@ -1,7 +1,5 @@
 # Open Questions
 
-Requirements are complete as of 2026-11-11. Remaining pre-build checks:
-
-1. Verify the holiday dates against citizensinformation.ie.
-2. Mobile check: confirm on a real phone that dropdown edits fire the trigger and
-   that the user's email is available.
+Requirements are complete. What remains is testing and checking, listed in
+`SPEC.md` §16.2 (seven platform assumptions for Phase 0) and §16.3 (checks before
+go-live).
